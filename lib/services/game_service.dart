@@ -71,9 +71,7 @@ class GameService {
     return _db.child('rooms').child(roomCode).onValue;
   }
   Future<void> startGame(String roomCode) async {
-    // 1. Criar um baralho simples (52 cartas)
-    // Vamos usar Strings para facilitar: "C-1" (Copas Ás), "E-13" (Espadas Rei)
-    // C=Copas, E=Espadas, O=Ouros, P=Paus
+    // 1. Criar e embaralhar o baralho
     List<String> deck = [];
     List<String> suits = ['C', 'E', 'O', 'P'];
     for (var suit in suits) {
@@ -81,21 +79,30 @@ class GameService {
         deck.add('$suit-$i');
       }
     }
-    deck.shuffle(); // Embaralha
+    deck.shuffle();
 
-    // 2. Pegar o ID do primeiro jogador para começar
+    // 2. Pegar o primeiro jogador
     final snapshot = await _db.child('rooms/$roomCode/players').get();
     if (!snapshot.exists) return;
     
     Map players = snapshot.value as Map;
-    String firstPlayerId = players.keys.first; // Pega o primeiro ID da lista
+    String firstPlayerId = players.keys.first;
 
-    // 3. Atualizar o banco de dados
+    // 3. Sacar as duas primeiras cartas para ele
+    String card1 = deck.removeLast();
+    String card2 = deck.removeLast();
+
+    // 4. Atualizar TUDO no banco de dados
+    // Atualiza o jogo
     await _db.child('rooms/$roomCode').update({
-      'status': 'playing',   // Muda o status para todos saberem
-      'deck': deck,          // Salva o baralho embaralhado
-      'currentTurn': firstPlayerId, // Define de quem é a vez
-      'cardsOnTable': [],    // Limpa a mesa
+      'status': 'playing',
+      'deck': deck, // Salva o baralho JÁ com as cartas removidas
+      'currentTurn': firstPlayerId,
     });
-  }
-}
+
+    // Atualiza a mão do jogador da vez
+    await _db.child('rooms/$roomCode/players/$firstPlayerId').update({
+      'hand': [card1, card2],
+      'state': 'betting' // Novo estado: o jogador precisa apostar
+    });
+  }}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/game_service.dart';
+import '../widgets/playing_card.dart';
 
 class GameTableScreen extends StatefulWidget {
   final String roomCode;
@@ -55,13 +56,24 @@ class _GameTableScreenState extends State<GameTableScreen> {
               const Spacer(),
 
               // Área Central: As Cartas (Placeholder por enquanto)
-              Container(
+           Container(
                 height: 200,
                 width: double.infinity,
                 alignment: Alignment.center,
-                child: const Text(
-                  "[ CARTAS DA MESA ]",
-                  style: TextStyle(color: Colors.white54),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Carta 1 (Esquerda)
+                    PlayingCard(cardCode: 'E-1'), // Espadas Ás
+                    const SizedBox(width: 20),
+                    
+                    // Carta do Meio (A que o jogador compra) - Por enquanto virada
+                    PlayingCard(cardCode: ''), // Vazia = Virada (verso azul)
+                    const SizedBox(width: 20),
+
+                    // Carta 2 (Direita)
+                    PlayingCard(cardCode: 'C-13'), // Copas Rei
+                  ],
                 ),
               ),
 
