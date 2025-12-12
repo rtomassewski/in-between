@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "706916583502",
+    "firebase_url": "https://meinho-26cd3-default-rtdb.firebaseio.com",
+    "project_id": "meinho-26cd3",
+    "storage_bucket": "meinho-26cd3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:706916583502:android:dc9ca4690f750e23681b1f",
+        "android_client_info": {
+          "package_name": "com.example.meinho"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAuJT0g0MpB4T2-Polb_I4w4ICOjSzweA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
